@@ -1,14 +1,57 @@
 language: node_js
+
 node_js:
-  - '8'
-  - '9'
+  - '10'
+  - '12'
+  - '13'
+
 cache: yarn
-script: npm run build
-after_success: npm run docs && npm run ci:coverage
-deploy:
-  provider: pages
-  skip_cleanup: true
-  local_dir: doc
-  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-  on:
-    branch: develop
+
+before_script:
+  - yarn install
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - yarn test:unit
+  - yarn test:lint
+  - yarn test:coverage
+  - yarn build
+
+after_success:
+  - ./cc-test-reporter after-build -r $CC_TEST_REPORTER_ID -t lcov coverage/lcov.info
+
+jobs:
+  include:
+
+    - stage: "Publish docs"
+      if: branch = master
+      script: yarn docs:publish    # usually you do not want to rerun any tests
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+        local_dir: docs
+
+    - stage: GitHub Release
+      if: tag IS present
+      script: skip
+      deploy:
+        provider: releases
+        api_key: $GITHUB_TOKEN
+        skip_cleanup: true
+
+    - stage: "NPM deploy"
+      if: tag IS present
+      before_script: yarn install
+      script: yarn build     # usually you do not want to rerun any tests
+      deploy:
+        provider: npm
+        email: lalung.alexandre@gmail.com
+        api_key: $NPM_AUTH_TOKEN
+
+code_climate:
+  repo_token:
+    secure: encrypted string
