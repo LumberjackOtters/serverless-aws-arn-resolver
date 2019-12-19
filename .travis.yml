@@ -25,6 +25,15 @@ after_success:
 jobs:
   include:
 
+    - stage: "Coverage"
+      script: yarn docs:publish    # usually you do not want to rerun any tests
+      deploy:
+        provider: pages
+        skip_cleanup: true
+        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
+        keep_history: true
+        local_dir: docs
+
     - stage: "Publish docs"
       if: branch = master
       script: yarn docs:publish    # usually you do not want to rerun any tests
@@ -36,21 +45,23 @@ jobs:
         local_dir: docs
 
     - stage: GitHub Release
-      if: tag IS present
       script: skip
       deploy:
         provider: releases
         api_key: $GITHUB_TOKEN
         skip_cleanup: true
+        on:
+          tag: true
 
     - stage: "NPM deploy"
-      if: tag IS present
       before_script: yarn install
       script: yarn build     # usually you do not want to rerun any tests
       deploy:
         provider: npm
         email: lalung.alexandre@gmail.com
         api_key: $NPM_AUTH_TOKEN
+        on:
+          tag: true
 
 code_climate:
   repo_token:
