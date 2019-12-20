@@ -39,16 +39,6 @@ jobs:
       skip_cleanup: true
       on:
         tags: true
-  - stage: NPM deploy
-    before_script: yarn install
-    script: yarn build
-    deploy:
-      provider: npm
-      email: lalung.alexandre@gmail.com
-      api_key: Xe9HtLDsNcF3aI2gx+rRHL1SvDnhDCjjCDRvzpJitTOtUo9oSchUPGN/YsEYKZ9IBhkc6tJf2rFEcnmIki1GJ+LjR6rJTt9rhEhMxobESrMbEjyyJL9KA6/Oa+1vKRBtUYk3viDEVRioMQ9xKRAoiLRsgrFeLvWEfkGIFp4/7pr0D9dYi+3ONo1COQJi3zkqqteVJU1Y3igCfHI4X0D8m95styRfuou1yu26mOcYrfruNn5tkbXE/U6amI45tVXrnkT8a7o+D4h6BDge200yYLBT4acFTLySWRGLYRzpqxSMVW8DZX98qeAJBfC5Lv+bGY3E8kHkIUbDkWBEPO7V038aKIMIVG3YgTFYod7hXclzVjXKD/rXXfrv2Zm2TI6eklGqynZqc+3qsaaKzI+Zc0f+LRuxOW5DmQ7Iu+lffQumswAHBuZDS/3Owg8g2HeTBMAtEYm9Zt6i5l7B+uN/kmcZiYCRZXypbLhgVIybSLFFoOOshflYmjnAZfz8phwma2YhVTX1gPqzkCGyZHgpfU2pP3eaqx+q6ySh1ops+tia9TgSk8HqoNh1WE9Ejhe9SLLX7C4G2A89+SWbKBIhce4dfB4gW+FZTf+BYaR0d2GKCvYyzbUOpH/S54WUpsFkKVRDsRfh0o4CCMd0YLXab/2tdXAP5D6Hc5gaXfVD2HU=
-      tag: next
-      on:
-        tags: true
 code_climate:
   repo_token:
     secure: encrypted string
