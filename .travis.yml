@@ -1,62 +1,54 @@
 language: node_js
-
 node_js:
-  - '10'
-  - '12'
-  - '13'
-
+- '10'
+- '12'
+- '13'
 cache: yarn
-
 before_script: yarn install
-
 script:
-  - yarn test:unit
-  - yarn test:lint
-  - yarn build
-
+- yarn test:unit
+- yarn test:lint
+- yarn build
 jobs:
   include:
-
-    - stage: "Coverage"
-      before_script:
-        - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-        - chmod +x ./cc-test-reporter
-        - ./cc-test-reporter before-build
-      script:
-        - yarn test:unit
-        - yarn test:coverage
-        - ./cc-test-reporter after-build -r $CC_TEST_REPORTER_ID -t lcov coverage/lcov.info
-
-    - stage: "Publish docs"
-      script: yarn docs:publish    # usually you do not want to rerun any tests
-      deploy:
-        provider: pages
-        skip_cleanup: true
-        github_token: $GITHUB_TOKEN  # Set in the settings page of your repository, as a secure variable
-        keep_history: true
-        local_dir: docs
-        on:
-          branch: master
-
-    - stage: GitHub Release
-      script: skip
-      deploy:
-        provider: releases
-        api_key: $GITHUB_TOKEN
-        skip_cleanup: true
-        on:
-          tags: true
-
-    - stage: "NPM deploy"
-      before_script: yarn install
-      script: yarn build     # usually you do not want to rerun any tests
-      deploy:
-        provider: npm
-        email: lalung.alexandre@gmail.com
-        api_key: $NPM_AUTH_TOKEN
-        on:
-          tags: true
-
+  - stage: Coverage
+    before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64
+      > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - "./cc-test-reporter before-build"
+    script:
+    - yarn test:unit
+    - yarn test:coverage
+    - "./cc-test-reporter after-build -r $CC_TEST_REPORTER_ID -t lcov coverage/lcov.info"
+  - stage: Publish docs
+    script: yarn docs:publish
+    deploy:
+      provider: pages
+      skip_cleanup: true
+      github_token: "$GITHUB_TOKEN"
+      keep_history: true
+      local_dir: docs
+      on:
+        branch: master
+  - stage: GitHub Release
+    script: skip
+    deploy:
+      provider: releases
+      api_key: "$GITHUB_TOKEN"
+      skip_cleanup: true
+      on:
+        tags: true
+  - stage: NPM deploy
+    before_script: yarn install
+    script: yarn build
+    deploy:
+      provider: npm
+      email: lalung.alexandre@gmail.com
+      api_key: E+AW5/iVdhhjfgw6wNy4Aa/85TdfzN6QdnAyRrae7WxnZyUjORh2aTmQ0PE/PZyOJNQ9wBrcQ5TEOJhbkc6QUYYpC/F3rraFng1fGuRSu5E2URKtpFXukpAK4tZhZlYK7fGjD2UDsTcjFvvpSEskQEYpL+2W0dIrg7iZTQ0gt80lDVgCliPsnxRUD7U2hPv/y+FcElUz5iE8/wYWIJWV149RXDr+tLjL8N15o3o98+mUW8l0PdWsZB5MvG6bLG8big+TKjQ7fqQSAeTApl3vMx0vEUGhEmYyo20Z/MQaKNTNOvBGEd3+3kIaqcD47gngDCPW6aB++gvD5SZwqH475TzTnUNIhFhVkaSXtEW/HKbukukbctnsKDt5Mfq+71MVqM0G1XwzvT2e7Pix87ln7CEmm6IpHUrGgCZsMbANR6ZY2+Elh0fZTowun5/XrVI6aN4i4Q9zQas1tzVsa8nxmuExu39ZuL3Bd4gBEommpWc3N2CDSsNC7+ZZJ5+9Xhp9LoCvBM47xdlRE1p9Ui+5AXaA7vK9zW5Vje+yR6yfVJxWqdkN/I6GUQ4o4tWvm1AMacAWFH6+D0enkKnhFLvgiM2xpYoh4ym9fYhdQH9B4dk1kX3Q81y/1E0Jh08KwcUqbOAbG13+nA8fBalxL+VSIGcwTWY2IE/ohs8YYKCTP3M=
+      tag: next
+      on:
+        tags: true
 code_climate:
   repo_token:
     secure: encrypted string
