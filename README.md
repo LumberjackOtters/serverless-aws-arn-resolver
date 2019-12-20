@@ -1,7 +1,7 @@
 # serverless-aws-arn-resolver
 [![serverless](http://public.serverless.com/badges/v3.svg)](http://www.serverless.com)
 [![Build Status](https://img.shields.io/travis/lumberjackotters/serverless-aws-arn-resolver/master?style=flat-square)](https://travis-ci.org/lumberjackotters/serverless-aws-arn-resolver)
-[![Technical Debt](https://img.shields.io/codeclimate/tech-debt/lumberjackotters/serverless-aws-arn-resolver?style=flat-square)](https://codeclimate.com/github/LumberjackOtters/serverless-aws-arn-resolver)
+[![Technical Debt](https://img.shields.io/codeclimate/tech-debt/LumberjackOtters/serverless-aws-arn-resolver?style=flat-square)](https://codeclimate.com/github/LumberjackOtters/serverless-aws-arn-resolver)
 [![Maintainability](https://img.shields.io/codeclimate/maintainability/LumberjackOtters/serverless-aws-arn-resolver?style=flat-square)](https://codeclimate.com/github/LumberjackOtters/serverless-aws-arn-resolver)
 [![Issues](https://img.shields.io/github/issues/LumberjackOtters/serverless-aws-arn-resolver?style=flat-square)](https://github.com/LumberjackOtters/serverless-aws-arn-resolver)
 [![Coverage](https://img.shields.io/codeclimate/coverage/LumberjackOtters/serverless-aws-arn-resolver?style=flat-square)](https://github.com/LumberjackOtters/serverless-aws-arn-resolver)
